@@ -1,6 +1,0 @@
-admin-no-permission: "&cNo tienes permisos para usar este comando"
-coins:
-  - ""
-  - " &6&lLCoins: &e%lcoins%"
-  - " &b&lVipPoints: &e%vipPoints%"
-  - ""
