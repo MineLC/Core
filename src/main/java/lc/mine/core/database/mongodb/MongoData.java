@@ -80,16 +80,12 @@ public final class MongoData implements Database {
         if (document == null) {
             return;
         }
-        final PlayerData data = new PlayerData(player.getName());
         final Double lcoins = document.getDouble(LCOINS);
-        if (lcoins != null) {
-            data.setLcoins(lcoins);
-        }
-        final Double vipPoints = document.getDouble(VIP_POINTS);
-        if (vipPoints != null) {
-            data.setVipPoins(vipPoints);
-        }
-        cache.put(player.getUniqueId(), data);
+        final Double vipPoints = document.getDouble(LCOINS);
+        final double parsedLcoins = (lcoins == null) ? 0 : lcoins;
+        final double parsedvipPoints = (vipPoints == null) ? 0 : vipPoints;
+
+        cache.put(player.getUniqueId(), new PlayerData(player.getName(), parsedLcoins, parsedvipPoints));
     }
 
     

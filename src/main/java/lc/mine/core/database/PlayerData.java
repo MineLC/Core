@@ -9,6 +9,14 @@ public class PlayerData {
         this.playerName = playerName;
     }
 
+    public PlayerData(String playerName, double lcoins, double vipPoints) {
+        this.playerName = playerName;
+        this.lcoins = lcoins;
+        this.oldLcoins = lcoins;
+        this.vipPoints = vipPoints;
+        this.oldVipPoints = vipPoints;
+    }
+
     public double getLcoins() {
         return lcoins;
     }
