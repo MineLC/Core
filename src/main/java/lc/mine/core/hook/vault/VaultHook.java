@@ -226,7 +226,7 @@ public final class VaultHook implements Economy {
         if (player == null) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Player don't found");
         }
-        final PlayerData data = database.getCached(player.getUniqueId());
+        PlayerData data = database.getCached(player.getUniqueId());
         if (data == null) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.SUCCESS, null);
         }
@@ -289,9 +289,12 @@ public final class VaultHook implements Economy {
         if (player == null) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Player don't found");
         }
-        final PlayerData data = database.getCached(player.getUniqueId());
+        PlayerData data = database.getCached(player.getUniqueId());
         if (data == null) {
-            return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Player don't found");
+            data = new PlayerData.New(playerName);
+            database.create(player, data);
+            data.setLcoins(amount);
+            return new EconomyResponse(amount, amount, EconomyResponse.ResponseType.SUCCESS, "Player don't found");
         }
         data.setLcoins(data.getLcoins() + amount);
         return new EconomyResponse(amount, data.getLcoins(), EconomyResponse.ResponseType.SUCCESS, null);

@@ -8,7 +8,7 @@ public interface Database {
     
     PlayerData getCached(final UUID uuid);
     void save(final Player player);
-    void load(final Player player);
+    void load(final UUID uuid, final String name);
     void create(final Player player, final PlayerData data);
     void close();
 }

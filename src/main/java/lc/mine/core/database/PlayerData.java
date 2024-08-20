@@ -2,19 +2,21 @@ package lc.mine.core.database;
 
 public class PlayerData {
     private double lcoins = 0, vipPoints = 0;
-    private double oldLcoins = 0, oldVipPoints = 0;
+    private final double joinLcoins, joinVipPoints;
     private final String playerName;
 
     public PlayerData(String playerName) {
         this.playerName = playerName;
+        this.joinLcoins = 0;
+        this.joinVipPoints = 0;
     }
 
     public PlayerData(String playerName, double lcoins, double vipPoints) {
         this.playerName = playerName;
         this.lcoins = lcoins;
-        this.oldLcoins = lcoins;
+        this.joinLcoins = lcoins;
         this.vipPoints = vipPoints;
-        this.oldVipPoints = vipPoints;
+        this.joinVipPoints = vipPoints;
     }
 
     public double getLcoins() {
@@ -24,20 +26,17 @@ public class PlayerData {
         return vipPoints;
     }
 
-    public double getOldLcoins() {
-        return oldLcoins;
+    public double getJoinLcoins() {
+        return joinLcoins;
     }
-
-    public double getOldVipPoints() {
-        return oldVipPoints;
+    public double getJoinVipPoints() {
+        return joinVipPoints;
     }
 
     public void setLcoins(double lcoins) {
-        this.oldLcoins = this.lcoins;
         this.lcoins = lcoins;
     }
     public void setVipPoins(double vipPoins) {
-        this.oldVipPoints = this.vipPoints;
         this.vipPoints = vipPoins;
     }
 

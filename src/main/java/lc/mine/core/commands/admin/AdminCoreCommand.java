@@ -23,16 +23,13 @@ public final class AdminCoreCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1) {
-            return List.of("set", "add", "remove", "multiply");
-        }
-        if (args.length == 2) {
-            return List.of("1", "2");
-        }
-        if (args.length == 3) {
-            return List.of("lcoins", "vipPoints");
-        }
-        return null;
+        return switch(args.length) {
+            case 1 -> List.of("set", "add", "remove", "multiply");
+            case 2 -> List.of("1", "2");
+            case 3 -> List.of("lcoins", "vipPoints");
+            case 4 -> null;
+            default -> List.of();
+        };
     }
 
     @Override

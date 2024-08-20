@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
 import java.util.Set;
 import java.util.UUID;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.mongodb.client.MongoClient;
@@ -51,21 +53,22 @@ public final class MongoData implements Database {
             document.put("_id", player.getName());
             document.put(LCOINS, data.getLcoins());
             document.put(VIP_POINTS, data.getVipPoins());
-            collection.insertOne(document);
+            CompletableFuture.runAsync(()->collection.insertOne(document));
             return;
         }
         final Bson query = createUpdateQuery(data);
+
         if (query != null) {
-            collection.updateOne(Filters.eq("_id", player.getName()), query);
+            CompletableFuture.runAsync(()->collection.updateOne(Filters.eq("_id", player.getName()), query));
         }
     }
 
     private Bson createUpdateQuery(final PlayerData data) {
         final List<Bson> update = new ArrayList<>();
-        if (data.getVipPoins() != 0 || data.getVipPoins() != data.getVipPoins()) {
+        if (data.getJoinVipPoints() != data.getVipPoins()) {
             update.add(Updates.set(VIP_POINTS, data.getVipPoins()));
         }
-        if (data.getLcoins() != 0 || data.getOldLcoins() != data.getLcoins()) {
+        if (data.getJoinLcoins() != data.getLcoins()) {
             update.add(Updates.set(LCOINS, data.getLcoins()));
         }
         if (update.isEmpty()) {
@@ -75,19 +78,18 @@ public final class MongoData implements Database {
     }
 
     @Override
-    public void load(final Player player) {
-        final Document document = collection.find(Filters.eq("_id", player.getName())).limit(1).first();
+    public void load(final UUID uuid, final String playerName) {
+        final Document document = collection.find(Filters.eq("_id", playerName)).limit(1).first();
         if (document == null) {
             return;
         }
         final Double lcoins = document.getDouble(LCOINS);
-        final Double vipPoints = document.getDouble(LCOINS);
+        final Double vipPoints = document.getDouble(VIP_POINTS);
         final double parsedLcoins = (lcoins == null) ? 0 : lcoins;
         final double parsedvipPoints = (vipPoints == null) ? 0 : vipPoints;
 
-        cache.put(player.getUniqueId(), new PlayerData(player.getName(), parsedLcoins, parsedvipPoints));
+        cache.put(uuid, new PlayerData(playerName, parsedLcoins, parsedvipPoints));
     }
-
     
     @Override
     public void create(Player player, PlayerData data) {

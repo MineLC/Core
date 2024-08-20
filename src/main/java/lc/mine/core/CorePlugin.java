@@ -40,8 +40,8 @@ public final class CorePlugin extends JavaPlugin {
 
         new StartMessages().start(new ConfigManager(new Yaml(), this));
         new ListenerRegister(this).register(
-            new PlayerJoinListener(database),
-            new PlayerQuitListener(database)
+            new PlayerQuitListener(database),
+            new PlayerJoinListener(this, database)
         );
         getCommand("lcadmin").setExecutor(new AdminCoreCommand(database));
         getCommand("lcoins").setExecutor(new CoinsCommand(database));
@@ -52,6 +52,10 @@ public final class CorePlugin extends JavaPlugin {
         if (database != null) {
             database.close();
         }
+    }
+
+    public Database getData() {
+        return database;
     }
 
     public void load() {
