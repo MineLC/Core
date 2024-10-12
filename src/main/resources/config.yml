@@ -1,0 +1,8 @@
+mongodb:
+  user: "minelc"
+  pass: "mypass"
+
+  ip: "localhost"
+  port: 27017
+
+  collection: "lc"

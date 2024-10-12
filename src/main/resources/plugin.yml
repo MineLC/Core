@@ -1,0 +1,15 @@
+name: LCCore
+main: lc.mine.core.CorePlugin
+version: 0.0.1
+description: MineLC Core
+
+website: play.mine.lc
+authors: [iChocoMilk]
+
+softdepend: [Vault, PlaceholderAPI]
+
+commands:
+  lcadmin:
+    description: "Optimum Virtual drop generator command"
+  lcoins:
+    description: "Optimum command"
